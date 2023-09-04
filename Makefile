@@ -3,19 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+         #
+#    By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:52:50 by lvon-war          #+#    #+#              #
-#    Updated: 2023/08/23 14:02:28 by lvon-war         ###   ########.fr        #
+#    Updated: 2023/09/01 14:00:59 by lvon-war         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Executable Name
-ENAME	=	fdf
-NAME	=	FdF.a
+ENAME	=	philo
+NAME	=	philo.a
 CFLAGS	=	-Wall -Werror -Wextra
 AR		=	ar -rsc
-FILES	=	
+FILES	=	pthread.c utils.c minilib.c
+ARGS	=
 
 # Path for .c , .h and .o Files 
 SRC_PATH := ./SRC/
@@ -29,7 +30,7 @@ FRAMEWORK :=
 # Compliation under anything else (but only work under linux)
 else
 INC_PATH := 
-LINKER := -L
+LINKER := -lpthread
 FRAMEWORK :=
 endif
 
@@ -64,5 +65,7 @@ san: all
 	$(CC) $(CFLAGS) $(NAME) $(INC_PATH) $(FRAMEWORK) $(LINKER) -fsanitize=address -o $(ENAME)
 
 test: all
+	clear
+	./philo $(ARGS)
 
 .PHONY : clean fclean re
