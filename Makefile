@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+         #
+#    By: vm <vm@student.42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:52:50 by lvon-war          #+#    #+#              #
-#    Updated: 2023/09/01 14:00:59 by lvon-war         ###   ########.fr        #
+#    Updated: 2023/09/05 16:56:19 by vm               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ FRAMEWORK :=
 endif
 
 all : $(NAME)
-
 OBJ1 := $(FILES:.c=.o)
 OBJ := $(patsubst %,$(OBJ_PATH)%,$(OBJ1))
 
