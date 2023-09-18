@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vm <vm@student.42.fr>                      +#+  +:+       +#+         #
+#    By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:52:50 by lvon-war          #+#    #+#              #
-#    Updated: 2023/09/05 16:56:19 by vm               ###   ########.fr        #
+#    Updated: 2023/09/11 16:18:19 by lvon-war         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ ENAME	=	philo
 NAME	=	philo.a
 CFLAGS	=	-Wall -Werror -Wextra
 AR		=	ar -rsc
-FILES	=	pthread.c utils.c minilib.c
+FILES	=	pthread.c  philoaction.c utils.c minilib.c
 ARGS	=
 
 # Path for .c , .h and .o Files 
