@@ -6,7 +6,7 @@
 #    By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:52:50 by lvon-war          #+#    #+#              #
-#    Updated: 2023/09/11 16:18:19 by lvon-war         ###   ########.fr        #
+#    Updated: 2023/09/18 19:01:38 by lvon-war         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ ENAME	=	philo
 NAME	=	philo.a
 CFLAGS	=	-Wall -Werror -Wextra
 AR		=	ar -rsc
-FILES	=	pthread.c  philoaction.c utils.c minilib.c
+FILES	=	pthread.c philoaction.c utils.c minilib.c
 ARGS	=
 
 # Path for .c , .h and .o Files 
@@ -25,13 +25,13 @@ OBJ_PATH := ./OBJ/
 # Compliation under Mac OS
 ifeq ($(shell uname),Darwin)
 INC_PATH := 
-LINKER := -L 
-FRAMEWORK := 
+LINKER :=
+FRAMEWORK := -lpthread
 # Compliation under anything else (but only work under linux)
 else
 INC_PATH := 
-LINKER := -lpthread
-FRAMEWORK :=
+LINKER := 
+FRAMEWORK := -lpthread
 endif
 
 all : $(NAME)

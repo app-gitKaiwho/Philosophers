@@ -16,43 +16,66 @@ void	*philobot(void *arg)
 {
 	t_data	*data;
 
-	data = (t_data *)arg;
-	pthread_mutex_lock(&(data->data));
-	data->compteur++;
-	pthread_mutex_unlock(&(data->data));
+	data = ((t_philobot *)arg)->data;
+	atomic_print(data, "woke up", ((t_philobot *)arg)->id);
+	eat((t_philobot *)arg);
+	good_sleep((t_philobot *)arg);
+	atomic_print(data, "finished", ((t_philobot *)arg)->id);
 	return (NULL);
 }
 
-t_data	data_init(t_data data, int n)
+t_data	*data_fill(void)
 {
-	int	i;
+	t_data	*data;
+
+	data = malloc (sizeof(t_data));
+	data->sleep_time = 100;
+	data->eat_time = 100;
+	data->expiration_time = 200;
+	data->min_eat = 2;
+	gettimeofday(&data->global, NULL);
+	pthread_mutex_init(&data->print_mutex, NULL);
+	return (data);
+}
+
+t_philobot	*data_init(int n)
+{
+	int			i;
+	t_data		*data;
+	t_philobot	*philobots;
 
 	i = 0;
-	data.philobots = malloc(sizeof(t_philobot) * n);
-	data.compteur = 0;
-	printf("%d\n", data.compteur);
+	data = data_fill();
+	philobots = malloc(sizeof(t_philobot) * n);
 	while (i < n)
 	{
-		pthread_create(&(data.philobots[i].thread), NULL, philobot, &data);
+		philobots[i].id = i;
+		philobots[i].data = data;
+		gettimeofday(&philobots[i].last_meal, NULL);
+		pthread_mutex_init(&philobots[i].fork, NULL);
+		if (i == n - 1)
+			philobots[i].next = &philobots[0];
+		else
+			philobots[i].next = &philobots[i + 1];
+		pthread_create(&philobots[i].thread, NULL, philobot, &philobots[i]);
 		i++;
 	}
-	return (data);
+	return (philobots);
 }
 
 int	main(int ac, char **av)
 {
-	t_data	data;
+	t_philobot	*data;
 	int		i;
 
 	i = 0;
 	if (ac < 2)
 		error_manager(1, "not engnough arg\n");
-	data = data_init(data, ft_atoi(av[1]));
+	data = data_init(ft_atoi(av[1]));
 	while (i < ft_atoi(av[1]))
 	{
-		pthread_join(data.philobots[i].thread, NULL);
+		pthread_join(data[i].thread, NULL);
 		i++;
 	}
-	printf("%d\n", data.compteur);
 	return (0);
 }
