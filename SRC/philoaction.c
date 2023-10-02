@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 15:46:05 by lvon-war          #+#    #+#             */
-/*   Updated: 2023/10/02 09:07:19 by lvon-war         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:21:56 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,25 @@ void	eat(t_philobot *philo)
 	pthread_mutex_lock(&philo->fork);
 	pthread_mutex_lock(&((t_philobot *)philo->next)->fork);
 	atomic_print(philo->data, "is eating", philo->id);
+	gettimeofday(&philo->last_meal, NULL);
 	usleep(philo->data->eat_time * 1000);
 	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&((t_philobot *)philo->next)->fork);
+}
+
+int	is_finished(t_philobot *philobot)
+{
+	int	i;
+	int	iteration;
+
+	iteration = philobot[0].data->philo_n;
+	i = 0;
+	while (i < iteration)
+	{
+		if (!philobot[i].finished)
+			return (0);
+		i++;
+	}
+	atomic_print(philobot[0].data, "everyone ate, project finished", -1);
+	return (1);
 }

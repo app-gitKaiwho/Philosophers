@@ -30,6 +30,10 @@ long	whatttime(struct timeval global)
 void	atomic_print(t_data *data, char *txt, int id)
 {
 	pthread_mutex_lock(&data->print_mutex);
-	printf("%ldms id[%d] %s\n", whatttime(data->global), id, txt);
+	if (id < 0)
+		printf("%ldms %s\n", whatttime(data->global), txt);
+	else
+		printf("%ldms %d %s\n", whatttime(data->global), id, txt);
 	pthread_mutex_unlock(&data->print_mutex);
 }
+

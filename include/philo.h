@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 11:54:56 by lvon-war          #+#    #+#             */
-/*   Updated: 2023/09/29 19:43:42 by lvon-war         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:12:59 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct data
 	long			sleep_time;
 	long			eat_time;
 	int				min_eat;
+	int				philo_n;
 }t_data;
 
 typedef struct philobot
@@ -39,6 +40,7 @@ typedef struct philobot
 	t_data			*data;
 	void			*next;
 	int				id;
+	int				finished;
 }t_philobot;
 
 //utils
@@ -48,8 +50,10 @@ long	whatttime(struct timeval global);
 
 //minilib
 int		ft_atoi(const char *str);
+int		ft_wdcount(char **str);
 
 //philoaction
 void	good_sleep(t_philobot *philo);
 void	eat(t_philobot *philo);
+int		is_finished(t_philobot *philobot);
 #endif /*!PHILO_H */

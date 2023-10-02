@@ -37,6 +37,16 @@ int	ft_strlen(const char *str)
 	return (len);
 }
 
+int	ft_wdcount(char **str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	return (len - 1);
+}
+
 int	ft_atoi(const char *str)
 {
 	int		signe;

@@ -12,48 +12,92 @@
 
 #include "../include/philo.h"
 
-void	*philobot(void *arg)
+void	*damocles(void *arg)
 {
-	t_data	*data;
+	t_philobot		*philobots;
+	t_data			*data;
+	struct timeval	death;	
+	int				i;
 
-	data = ((t_philobot *)arg)->data;
-	atomic_print(data, "woke up", ((t_philobot *)arg)->id);
-	eat((t_philobot *)arg);
-	good_sleep((t_philobot *)arg);
-	atomic_print(data, "finished", ((t_philobot *)arg)->id);
+	philobots = (t_philobot *)arg;
+	data = philobots[0].data;
+	while (1)
+	{
+		i = 0;
+		if (is_finished((t_philobot *) arg))
+			return (NULL);
+		gettimeofday(&death, NULL);
+		while (i < data->philo_n)
+		{
+			if (whatttime(philobots[i].last_meal) > data->expiration_time
+				&& !philobots[i].finished)
+			{
+				atomic_print(data, "died", i);
+				return (NULL);
+			}
+			i++;
+		}
+	}
 	return (NULL);
 }
 
-t_data	*data_fill(void)
+void	*philobot(void *arg)
+{
+	t_data	*data;
+	int		i;
+
+	i = 0;
+	data = ((t_philobot *)arg)->data;
+	while (i < data->min_eat)
+	{
+		atomic_print(data, "is thinking", ((t_philobot *)arg)->id);
+		eat((t_philobot *)arg);
+		i++;
+		if (i >= data->min_eat)
+		{
+			((t_philobot *)arg)->finished = 1;
+			return (NULL);
+		}
+		good_sleep((t_philobot *)arg);
+	}
+	return (NULL);
+}
+
+t_data	*data_fill(char **arg)
 {
 	t_data	*data;
 
 	data = malloc (sizeof(t_data));
-	data->sleep_time = 100;
-	data->eat_time = 100;
-	data->expiration_time = 200;
-	data->min_eat = 2;
+	data->philo_n = ft_atoi(arg[1]);
+	data->expiration_time = ft_atoi(arg[2]);
+	data->eat_time = ft_atoi(arg[3]);
+	data->sleep_time = ft_atoi(arg[4]);
+	if (ft_wdcount(arg) == 5)
+		data->min_eat = ft_atoi(arg[5]);
+	else
+		data->min_eat = __INT_MAX__;
 	gettimeofday(&data->global, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
 	return (data);
 }
 
-t_philobot	*data_init(int n)
+t_philobot	*data_init(char **av)
 {
 	int			i;
 	t_data		*data;
 	t_philobot	*philobots;
 
 	i = 0;
-	data = data_fill();
-	philobots = malloc(sizeof(t_philobot) * n);
-	while (i < n)
+	data = data_fill(av);
+	philobots = malloc(sizeof(t_philobot) * data->philo_n);
+	while (i < data->philo_n)
 	{
 		philobots[i].id = i;
 		philobots[i].data = data;
-		gettimeofday(&philobots[i].last_meal, NULL);
+		philobots[i].finished = 0;
 		pthread_mutex_init(&philobots[i].fork, NULL);
-		if (i == n - 1)
+		gettimeofday(&philobots[i].last_meal, NULL);
+		if (i == data->philo_n - 1)
 			philobots[i].next = &philobots[0];
 		else
 			philobots[i].next = &philobots[i + 1];
@@ -65,17 +109,13 @@ t_philobot	*data_init(int n)
 
 int	main(int ac, char **av)
 {
-	t_philobot	*data;
-	int		i;
+	t_philobot	*philobots;
+	pthread_t	damocles_thread;
 
-	i = 0;
-	if (ac < 2)
+	if (ac < 5)
 		error_manager(1, "not engnough arg\n");
-	data = data_init(ft_atoi(av[1]));
-	while (i < ft_atoi(av[1]))
-	{
-		pthread_join(data[i].thread, NULL);
-		i++;
-	}
+	philobots = data_init(av);
+	pthread_create(&damocles_thread, NULL, damocles, philobots);
+	pthread_join(damocles_thread, NULL);
 	return (0);
 }
