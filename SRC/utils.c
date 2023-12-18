@@ -36,4 +36,3 @@ void	atomic_print(t_data *data, char *txt, int id)
 		printf("%ldms %d %s\n", whatttime(data->global), id, txt);
 	pthread_mutex_unlock(&data->print_mutex);
 }
-

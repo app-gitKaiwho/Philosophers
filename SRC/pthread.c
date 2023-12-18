@@ -113,7 +113,7 @@ int	main(int ac, char **av)
 	pthread_t	damocles_thread;
 
 	if (ac < 5)
-		error_manager(1, "not engnough arg\n");
+		error_manager(1, "not enough arg\n");
 	philobots = data_init(av);
 	pthread_create(&damocles_thread, NULL, damocles, philobots);
 	pthread_join(damocles_thread, NULL);
