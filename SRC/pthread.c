@@ -106,7 +106,7 @@ t_philobot	*data_init(char **av)
 			philobots[i].next = &philobots[i + 1];
 		pthread_create(&philobots[i].thread, NULL, philobot, &philobots[i]);
 		i++;
-		usleep(50);
+		usleep(100);
 	}
 	return (philobots);
 }
