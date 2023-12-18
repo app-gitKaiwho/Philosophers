@@ -1,0 +1,10 @@
+test 5 : 4 philo, 310ms to live, 200 to eat, 100 to sleep, 1 philo should die.
+0ms 0 is thinking
+0ms 0 is eating
+0ms 1 is thinking
+0ms 1 is eating
+0ms 2 is thinking
+0ms 2 is eating
+0ms 3 is thinking
+201ms 3 is eating
+403ms everyone ate, project finished
