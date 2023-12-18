@@ -6,7 +6,7 @@
 #    By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:52:50 by lvon-war          #+#    #+#              #
-#    Updated: 2023/09/18 19:01:38 by lvon-war         ###   ########.fr        #
+#    Updated: 2023/12/18 11:05:40 by lvon-war         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME	=	philo.a
 CFLAGS	=	-Wall -Werror -Wextra
 AR		=	ar -rsc
 FILES	=	pthread.c philoaction.c utils.c minilib.c
-ARGS	=
+ARGS	=   4 410 200 200
 
 # Path for .c , .h and .o Files 
 SRC_PATH := ./SRC/

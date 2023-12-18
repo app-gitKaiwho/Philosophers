@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 11:54:56 by lvon-war          #+#    #+#             */
-/*   Updated: 2023/10/02 17:12:59 by lvon-war         ###   ########.fr       */
+/*   Updated: 2023/12/18 11:29:44 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct data
 	long			eat_time;
 	int				min_eat;
 	int				philo_n;
+	int				flag_eat;
 }t_data;
 
 typedef struct philobot
