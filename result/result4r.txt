@@ -1,0 +1,21 @@
+test 4 : 4 philo, 410ms to live, 200 to eat, 200 to sleep, 0 death.
+	0ms 0 is thinking
+	0ms 0 is eating
+	0ms 1 is thinking
+	0ms 1 is eating
+	0ms 2 is thinking
+	0ms 2 is eating
+	0ms 3 is thinking
+	204ms 1 is sleeping
+	204ms 0 is sleeping
+	204ms 3 is eating
+	204ms 2 is sleeping
+	407ms 1 is thinking
+	407ms 1 is eating
+	407ms 0 is thinking
+	407ms 3 is sleeping
+	407ms 2 is thinking
+	607ms 1 is sleeping
+	607ms 3 is thinking
+	607ms 0 is eating
+	615ms 2 died
