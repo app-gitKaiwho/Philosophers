@@ -16,11 +16,11 @@ NAME	=	philo.a
 CFLAGS	=	-Wall -Werror -Wextra
 AR		=	ar -rsc
 FILES	=	pthread.c philoaction.c utils.c minilib.c
-ARGS	=   4 410 200 200
 
 # Path for .c , .h and .o Files 
 SRC_PATH := ./SRC/
 OBJ_PATH := ./OBJ/
+RESULT_PATH := ./result/
 
 # Compliation under Mac OS
 ifeq ($(shell uname),Darwin)
@@ -52,11 +52,20 @@ $(NAME): $(OBJ) $(MLX)
 # Clean all the object files and the binary
 clean:   
 	@echo "[Cleaning]"
+	@echo "Object..."
 	@$(RM) -rfv $(OBJ_PATH)*
+	@echo "Result..."
+	@$(RM) -rfv $(RESULT_PATH)*
 
 fclean: clean
+		@echo "Archive..."
 		@$(RM) -rfv $(NAME)
+		@echo "Executable..."
 		@$(RM) -rfv $(ENAME)
+
+deepclean : fclean
+	@echo "libft..."
+		@make fclean -C ./include/libft
 
 re: fclean all
 
@@ -65,6 +74,6 @@ san: all
 
 test: all
 	clear
-	./philo $(ARGS)
+	./script/test.sh
 
 .PHONY : clean fclean re

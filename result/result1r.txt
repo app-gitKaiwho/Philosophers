@@ -1,3 +1,0 @@
-test 1 : 1 philo, 800ms to live, 200 to eat, 200 to sleep, should not eat, then die.
-	0ms 0 is thinking
-	801ms 0 died

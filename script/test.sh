@@ -23,24 +23,29 @@ if [ -d "$FOLDER" ]; then
   sleep $SLEEPTIME
 
   TESTNO=1
-  echo "test $TESTNO : 1 philo, 800ms to live, 200 to eat, 200 to sleep, should not eat, then die." | tee "$FOLDER"result"$TESTNO"r.txt
+  echo "\ntest $TESTNO : 1 philo, 800ms to live, 200 to eat, 200 to sleep, should not eat, then die." | tee "$FOLDER"result"$TESTNO"r.txt
   ./philo 1 800 200 200 $NTEST | awk '{print "\t"$0 }' >> "$FOLDER"result"$TESTNO"r.txt
+  printf "result : " && tail -1 "$FOLDER"result"$TESTNO"r.txt
 
   TESTNO=2
-  echo "test $TESTNO : 5 philo, 800ms to live, 200 to eat, 200 to sleep, 0 death." | tee "$FOLDER"result"$TESTNO"r.txt
+  echo "\ntest $TESTNO : 5 philo, 800ms to live, 200 to eat, 200 to sleep, 0 death." | tee "$FOLDER"result"$TESTNO"r.txt
   ./philo 5 800 200 200 $NTEST | awk '{print "\t"$0 }' >> "$FOLDER"result"$TESTNO"r.txt
+  printf "result : " && tail -1 "$FOLDER"result"$TESTNO"r.txt
 
   TESTNO=3
-  echo "test $TESTNO : 5 philo, 800ms to live, 200 to eat, 200 to sleep will eat 7 time, 0 death." | tee "$FOLDER"result"$TESTNO"r.txt
+  echo "\ntest $TESTNO : 5 philo, 800ms to live, 200 to eat, 200 to sleep will eat 7 time, 0 death." | tee "$FOLDER"result"$TESTNO"r.txt
   ./philo 5 800 200 200 7 | awk '{print "\t"$0 }' >> "$FOLDER"result"$TESTNO"r.txt
-
+  printf "result : " && tail -1 "$FOLDER"result"$TESTNO"r.txt
+  
   TESTNO=4
-  echo "test $TESTNO : 4 philo, 410ms to live, 200 to eat, 200 to sleep, 0 death." | tee "$FOLDER"result"$TESTNO"r.txt
+  echo "\ntest $TESTNO : 4 philo, 410ms to live, 200 to eat, 200 to sleep, 0 death." | tee "$FOLDER"result"$TESTNO"r.txt
   ./philo 4 410 200 200 $NTEST | awk '{print "\t"$0 }' >> "$FOLDER"result"$TESTNO"r.txt
+  printf "result : " && tail -1 "$FOLDER"result"$TESTNO"r.txt
 
   TESTNO=5
-  echo "test $TESTNO : 4 philo, 310ms to live, 200 to eat, 100 to sleep, 1 philo should die." | tee "$FOLDER"result"$TESTNO"r.txt
+  echo "\ntest $TESTNO : 4 philo, 310ms to live, 200 to eat, 100 to sleep, 1 philo should die." | tee "$FOLDER"result"$TESTNO"r.txt
   ./philo 4 310 200 100 $NTEST | awk '{print "\t"$0 }' >> "$FOLDER"result"$TESTNO"r.txt
+  printf "result : " && tail -1 "$FOLDER"result"$TESTNO"r.txt
 
   echo "\nResult file are found under "$FOLDER"${ENDCOLOR}\n"
 else 
