@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philoaction.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 15:46:05 by lvon-war          #+#    #+#             */
-/*   Updated: 2023/12/18 12:55:07 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:05:07 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	eat(t_philobot *philo)
 	gettimeofday(&philo->last_meal, NULL);
 	usleep(philo->data->eat_time * 1000);
 	gettimeofday(&philo->last_meal, NULL);
-	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&((t_philobot *)philo->next)->fork);
+	pthread_mutex_unlock(&philo->fork);
 }
 
 int	is_finished(t_philobot *philobot)
