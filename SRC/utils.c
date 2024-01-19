@@ -43,10 +43,3 @@ void	atomic_actualise_time(t_philobot *philo)
 	gettimeofday(&philo->last_meal, NULL);
 	pthread_mutex_lock(&philo->philodatamutex);
 }
-
-void	atomic_write_data(t_philobot *philo, int value)
-{
-	pthread_mutex_lock(&philo->philodatamutex);
-	philo->data->flag_eat = value;
-	pthread_mutex_unlock(&philo->philodatamutex);
-}

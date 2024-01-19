@@ -29,12 +29,15 @@ void	*damocles(void *arg)
 		gettimeofday(&death, NULL);
 		while (i < data->philo_n)
 		{
+			pthread_mutex_lock(&philobots[i].philodatamutex);
 			if (whatttime(philobots[i].last_meal) > data->expiration_time
 				&& !philobots[i].finished)
 			{
+				pthread_mutex_unlock(&philobots[i].philodatamutex);
 				atomic_print(data, "died", i);
 				return (NULL);
 			}
+			pthread_mutex_unlock(&philobots[i].philodatamutex);
 			i++;
 		}
 	}
@@ -54,11 +57,14 @@ void	*philobot(void *arg)
 		atomic_print(data, "is thinking", ((t_philobot *)arg)->id);
 		eat((t_philobot *)arg);
 		ate++;
+		pthread_mutex_lock(&((t_philobot *)arg)->philodatamutex);
 		if (data->flag_eat && ate >= data->min_eat)
 		{
 			((t_philobot *)arg)->finished = 1;
+			pthread_mutex_lock(&((t_philobot *)arg)->philodatamutex);
 			return (NULL);
 		}
+		pthread_mutex_lock(&((t_philobot *)arg)->philodatamutex);
 		good_sleep((t_philobot *)arg);
 	}
 	return (NULL);
@@ -119,7 +125,8 @@ int	main(int ac, char **av)
 	if (ac < 5)
 	{
 		printf("please provide : [number_of_philosophers] [time_to_die]");
-		error_manager(1, " [time_to_eat] [time_to_sleep]\n");
+		printf(" [time_to_eat] [time_to_sleep]\n");
+		return (0);
 	}
 	philobots = data_init(av);
 	i = 0;

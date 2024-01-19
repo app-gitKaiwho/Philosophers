@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 15:46:05 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/19 15:14:10 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:07:40 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,13 @@ int	is_finished(t_philobot *philobot)
 	i = 0;
 	while (i < iteration)
 	{
+		pthread_mutex_lock(&philobot[i].philodatamutex);
 		if (!philobot[i].finished)
+		{
+			pthread_mutex_unlock(&philobot[i].philodatamutex);
 			return (0);
+		}
+		pthread_mutex_unlock(&philobot[i].philodatamutex);
 		i++;
 	}
 	atomic_print(philobot[0].data, "everyone ate, project finished", -1);
