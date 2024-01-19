@@ -36,3 +36,17 @@ void	atomic_print(t_data *data, char *txt, int id)
 		printf("%ldms %d %s\n", whatttime(data->global), id, txt);
 	pthread_mutex_unlock(&data->print_mutex);
 }
+
+void	atomic_actualise_time(t_philobot *philo)
+{
+	pthread_mutex_lock(&philo->philodatamutex);
+	gettimeofday(&philo->last_meal, NULL);
+	pthread_mutex_lock(&philo->philodatamutex);
+}
+
+void	atomic_write_data(t_philobot *philo, int value)
+{
+	pthread_mutex_lock(&philo->philodatamutex);
+	philo->data->flag_eat = value;
+	pthread_mutex_unlock(&philo->philodatamutex);
+}

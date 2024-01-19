@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 11:54:56 by lvon-war          #+#    #+#             */
-/*   Updated: 2023/12/18 12:26:51 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:44:17 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct data
 typedef struct philobot
 {
 	struct timeval	last_meal;
+	pthread_mutex_t	philodatamutex;
 	pthread_mutex_t	fork;
 	pthread_t		thread;
 	t_data			*data;
@@ -48,6 +49,8 @@ typedef struct philobot
 int		error_manager(int err_code, char *err_msg);
 void	atomic_print(t_data *data, char *txt, int id);
 long	whatttime(struct timeval global);
+void	atomic_write_data(int *data, int value);
+void	atomic_actualise_time(t_philobot *philo);
 
 //minilib
 int		ft_atoi(const char *str);

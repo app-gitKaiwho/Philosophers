@@ -48,7 +48,7 @@ void	*philobot(void *arg)
 
 	ate = 0;
 	data = ((t_philobot *)arg)->data;
-	gettimeofday(&(((t_philobot *)arg)->last_meal), NULL);
+	atomic_actualise_time((t_philobot *)arg);
 	while (1)
 	{
 		atomic_print(data, "is thinking", ((t_philobot *)arg)->id);
@@ -104,15 +104,15 @@ t_philobot	*data_init(char **av)
 			philobots[i].next = &philobots[0];
 		else
 			philobots[i].next = &philobots[i + 1];
-		pthread_create(&philobots[i].thread, NULL, philobot, &philobots[i]);
 		i++;
-		usleep(100);
 	}
+	i = 0;
 	return (philobots);
 }
 
 int	main(int ac, char **av)
 {
+	int			i;
 	t_philobot	*philobots;
 	pthread_t	damocles_thread;
 
@@ -122,6 +122,13 @@ int	main(int ac, char **av)
 		error_manager(1, " [time_to_eat] [time_to_sleep]\n");
 	}
 	philobots = data_init(av);
+	i = 0;
+	while (i < philobots[0].data->philo_n)
+	{
+		pthread_create(&philobots[i].thread, NULL, philobot, &philobots[i]);
+		i++;
+		usleep(100);
+	}
 	pthread_create(&damocles_thread, NULL, damocles, philobots);
 	pthread_join(damocles_thread, NULL);
 	return (0);
