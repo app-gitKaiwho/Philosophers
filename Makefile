@@ -6,7 +6,7 @@
 #    By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:52:50 by lvon-war          #+#    #+#              #
-#    Updated: 2023/12/18 11:05:40 by lvon-war         ###   ########.fr        #
+#    Updated: 2024/01/19 09:58:10 by lvon-war         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,9 +63,6 @@ fclean: clean
 		@echo "Executable..."
 		@$(RM) -rfv $(ENAME)
 
-deepclean : fclean
-	@echo "libft..."
-		@make fclean -C ./include/libft
 
 re: fclean all
 

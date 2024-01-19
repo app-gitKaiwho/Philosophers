@@ -4,19 +4,19 @@ test 5 : 4 philo, 310ms to live, 200 to eat, 100 to sleep, 1 philo should die.
 	0ms 0 is eating
 	0ms 1 is thinking
 	0ms 1 is eating
-	1ms 2 is thinking
-	1ms 2 is eating
-	1ms 3 is thinking
-	200ms 3 is eating
-	200ms 0 is sleeping
-	201ms 1 is sleeping
-	201ms 2 is sleeping
-	300ms 0 is thinking
-	301ms 1 is thinking
-	301ms 1 is eating
-	301ms 2 is thinking
-	401ms 3 is sleeping
-	502ms 3 is thinking
-	502ms 1 is sleeping
-	502ms 0 is eating
-	512ms 2 died
+	0ms 2 is thinking
+	0ms 2 is eating
+	0ms 3 is thinking
+	202ms 0 is sleeping
+	202ms 2 is sleeping
+	202ms 3 is eating
+	202ms 1 is sleeping
+	307ms 0 is thinking
+	307ms 2 is thinking
+	307ms 2 is eating
+	307ms 1 is thinking
+	405ms 3 is sleeping
+	510ms 3 is thinking
+	510ms 2 is sleeping
+	510ms 1 is eating
+	513ms 0 died
