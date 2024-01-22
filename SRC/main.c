@@ -31,7 +31,6 @@ t_data	*data_fill(char **arg)
 	data->flag_dead = 0;
 	pthread_mutex_init(&data->print_mutex, NULL);
 	pthread_mutex_init(&data->data_mutex, NULL);
-	gettimeofday(&data->global, NULL);
 	return (data);
 }
 
@@ -74,13 +73,17 @@ int	main(int ac, char **av)
 		printf(" [time_to_eat] [time_to_sleep]\n");
 		return (1);
 	}
-	philobots = data_init(av);
-	if (!philobots)
-		return (printf("Malloc error\n"));
-	threads = malloc(sizeof(pthread_t) * philobots[0].data->philo_n + 1);
-	if (!threads)
-		return (printf("Malloc error\n"));
-	process(threads, philobots);
-	free_all(philobots, threads);
+	else
+	{
+		philobots = data_init(av);
+		if (!philobots)
+			return (printf("Malloc error\n"));
+		threads = malloc(sizeof(pthread_t) * philobots[0].data->philo_n + 1);
+		if (!threads)
+			return (printf("Malloc error\n"));
+		gettimeofday(&philobots[0].data->global, NULL);
+		process(threads, philobots);
+		free_all(philobots, threads);
+	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   damoclesaction.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:30:20 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 16:41:32 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:24:57 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	everyone_ate(t_philobot *philobots, t_data *data, int i)
 int	someone_died(t_philobot *philobots, t_data *data, int i)
 {
 	if (whatttime(&philobots[i].pdata, philobots[i].last_meal)
-		>= data->expiration_time)
+		> data->expiration_time)
 	{
 		atomic_print(philobots[i].data, "died", philobots[i].id);
 		atomic_set_data(&data->data_mutex, &data->flag_dead, 1);

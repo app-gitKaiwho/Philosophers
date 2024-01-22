@@ -68,11 +68,9 @@ void	free_all(t_philobot *philobot, pthread_t *threads)
 		pthread_mutex_destroy(&philobot[i].fork);
 		i++;
 	}
-	i = -1;
-	while (threads && ++i < philobot[0].data->philo_n + 1)
-		free(threads);
 	pthread_mutex_destroy(&philobot[0].data->print_mutex);
 	pthread_mutex_destroy(&philobot[0].data->data_mutex);
+	free(threads);
 	free(philobot[0].data);
 	free(philobot);
 }
