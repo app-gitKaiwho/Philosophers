@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 11:54:56 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 16:42:28 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/22 23:30:50 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int		ft_wdcount(char **str);
 //philoaction
 void	good_sleep(t_philobot *philo);
 int		eat(t_philobot *philo, int *ate_n);
-int		eat_odd(t_philobot *philo, int *ate_n);
 
 //damoclesaction
 int		everyone_ate(t_philobot *philobots, t_data *data, int i);

@@ -26,11 +26,9 @@ int	check_death(t_philobot *philo)
 int	is_finished(t_philobot *philobot)
 {
 	int	i;
-	int	iteration;
 
-	iteration = philobot[0].data->philo_n;
 	i = 0;
-	while (i < iteration)
+	while (i < philobot[0].data->philo_n)
 	{
 		if (fetch_data(&philobot[i].pdata, &philobot[i].finished))
 			return (0);
@@ -45,6 +43,7 @@ int	lock_mutex(t_philobot *philo)
 	if (fetch_data(&philo->pdata, &philo->fork_locked))
 		return (0);
 	atomic_set_data(&philo->pdata, &philo->fork_locked, 1);
+	atomic_print(philo->data, "has taken a fork", philo->id);
 	pthread_mutex_lock(&philo->fork);
 	return (1);
 }
@@ -58,11 +57,9 @@ void	unlock_mutex(t_philobot *philo)
 void	free_all(t_philobot *philobot, pthread_t *threads)
 {
 	int	i;
-	int	iteration;
 
-	iteration = philobot[0].data->philo_n;
 	i = 0;
-	while (philobot && i < iteration)
+	while (philobot && i < philobot[0].data->philo_n)
 	{
 		pthread_mutex_destroy(&philobot[i].pdata);
 		pthread_mutex_destroy(&philobot[i].fork);

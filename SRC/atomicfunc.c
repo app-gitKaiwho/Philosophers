@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:20:01 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 19:21:02 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/22 23:31:44 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 
 void	atomic_print(t_data *data, char *txt, int id)
 {
+	if (data->flag_dead)
+		return ;
 	pthread_mutex_lock(&data->print_mutex);
+	if (data->flag_dead)
+	{
+		pthread_mutex_unlock(&data->print_mutex);
+		return ;
+	}
 	if (id < 0)
 		printf("%ldms %s\n", whatttime(&data->data_mutex, data->global), txt);
 	else
@@ -50,12 +57,12 @@ int	fetch_data(pthread_mutex_t *mutex, int *data)
 long	whatttime(pthread_mutex_t *mutex, struct timeval global)
 {
 	struct timeval	now;
-	int				val;	
+	long			val;
 
 	pthread_mutex_lock(mutex);
 	gettimeofday(&now, NULL);
-	val = ((now.tv_sec - global.tv_sec) * 1000
-			+ (now.tv_usec - global.tv_usec) / 1000);
+	val = ((now.tv_sec - global.tv_sec) * 1000000
+			+ (now.tv_usec - global.tv_usec));
 	pthread_mutex_unlock(mutex);
-	return (val);
+	return (val / 1000);
 }

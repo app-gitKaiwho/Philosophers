@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pthread.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:27:30 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 17:12:48 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/22 23:31:59 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	*philobot(void *arg)
 
 	philo = (t_philobot *)arg;
 	ate_n = fetch_data(&philo->data->data_mutex, &philo->data->min_eat);
-	atomic_print(philo->data, "is thinking", philo->id);
+	atomic_print(philo->data, "Woke up", philo->id);
 	atomic_actualise_time(philo);
-	if (philo->id % 2)
-		usleep(1600);
+	if (!philo->id % 2)
+		usleep(philo->data->eat_time / 2);
 	while (1)
 	{
 		if (check_death(philo))
@@ -61,7 +61,7 @@ void	*philobot(void *arg)
 				fetch_data(&philo->data->data_mutex, &philo->data->f_eat) + 1);
 			return (NULL);
 		}
-		if (ate)
+		if (ate && !check_death(philo))
 			good_sleep(philo);
 	}
 }
@@ -72,7 +72,7 @@ void	process(pthread_t	*threads, t_philobot *philobots)
 
 	i = -1;
 	while (++i < philobots[0].data->philo_n)
-	{
+	{		
 		pthread_create(&threads[i], NULL, philobot, &philobots[i]);
 		usleep(100);
 	}

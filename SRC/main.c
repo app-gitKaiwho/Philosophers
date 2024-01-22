@@ -58,7 +58,6 @@ t_philobot	*data_init(char **av)
 		philobots[i].next = &philobots[(i + 1) % data->philo_n];
 		i++;
 	}
-	i = 0;
 	return (philobots);
 }
 
