@@ -57,11 +57,15 @@ void	*philobot(void *arg)
 	while (1)
 	{
 		if (check_death(philo))
+		{
+			printf("Someone died\n");
 			return (NULL);
+		}
 		if (check_free_fork(philo))
 			eat(philo, &ate_n);
 		if ((ate_n <= 0 && philo->data->min_eat > 0) || check_death(philo))
 		{
+			printf("Someone died or I finished\n");
 			atomic_set_data(&philo->pdata, &philo->finished, 1);
 			atomic_set_data(&philo->data->data_mutex, &philo->data->f_eat,
 				atomic_fetch_data(&philo->data->data_mutex, &philo->data->f_eat)
