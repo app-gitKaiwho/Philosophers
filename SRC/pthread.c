@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:27:30 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 16:41:50 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:07:22 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	*damocles(void *arg)
 
 	philobots = (t_philobot *)arg;
 	data = philobots[0].data;
+	atomic_print(data, "Damocles is watching", -1);
 	while (1)
 	{
 		i = 0;
@@ -47,7 +48,7 @@ void	*philobot(void *arg)
 	atomic_print(philo->data, "is thinking", philo->id);
 	atomic_actualise_time(philo);
 	if (philo->id % 2)
-		usleep(philo->data->eat_time - 200);
+		usleep(1600);
 	while (1)
 	{
 		if (check_death(philo))
