@@ -6,7 +6,7 @@
 #    By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:52:50 by lvon-war          #+#    #+#              #
-#    Updated: 2024/01/19 16:28:53 by lvon-war         ###   ########.fr        #
+#    Updated: 2024/01/22 11:24:08 by lvon-war         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ ENAME	=	philo
 NAME	=	philo.a
 CFLAGS	=	-Wall -Werror -Wextra -fsanitize=thread
 AR		=	ar -rsc
-FILES	=	pthread.c philoaction.c utils.c minilib.c
+FILES	=	pthread.c philoaction.c utils.c minilib.c atomicfunc.c
 
 # Path for .c , .h and .o Files 
 SRC_PATH := ./SRC/

@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 15:46:05 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 14:19:15 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:07:40 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,41 @@
 void	good_sleep(t_philobot *philo)
 {
 	atomic_print(philo->data, "is sleeping", philo->id);
-	usleep(philo->data->sleep_time);
+	usleep(philo->data->sleep_time * 1000);
 }
 
-void	eat(t_philobot *philo, int *ate_n)
+//eat time is edited two time, once when philo start eating
+//and once when he is done
+void	eat(t_philobot *philo)
 {
 	pthread_mutex_lock(&philo->fork);
-	atomic_set_data(&philo->pdata, &philo->fork_locked, 1);
-	pthread_mutex_lock(&philo->next->fork);
-	atomic_set_data(&philo->next->pdata, &philo->next->fork_locked, 1);
+	pthread_mutex_lock(&((t_philobot *)philo->next)->fork);
 	atomic_print(philo->data, "is eating", philo->id);
-	atomic_actualise_time(philo);
-	atomic_set_data(&philo->pdata, &philo->fork_locked, 0);
+	gettimeofday(&philo->last_meal, NULL);
+	usleep(philo->data->eat_time * 1000);
+	gettimeofday(&philo->last_meal, NULL);
+	pthread_mutex_unlock(&((t_philobot *)philo->next)->fork);
 	pthread_mutex_unlock(&philo->fork);
-	atomic_set_data(&philo->next->pdata, &philo->next->fork_locked, 0);
-	pthread_mutex_unlock(&philo->next->fork);
-	if (*ate_n > 0)
-		(*ate_n)--;
-	atomic_print(philo->data, "is thinking", philo->id);
+}
+
+int	is_finished(t_philobot *philobot)
+{
+	int	i;
+	int	iteration;
+
+	iteration = philobot[0].data->philo_n;
+	i = 0;
+	while (i < iteration)
+	{
+		pthread_mutex_lock(&philobot[i].philodatamutex);
+		if (!philobot[i].finished)
+		{
+			pthread_mutex_unlock(&philobot[i].philodatamutex);
+			return (0);
+		}
+		pthread_mutex_unlock(&philobot[i].philodatamutex);
+		i++;
+	}
+	atomic_print(philobot[0].data, "everyone ate, project finished", -1);
+	return (1);
 }

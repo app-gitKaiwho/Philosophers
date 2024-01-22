@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 11:54:56 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/19 17:04:53 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:11:57 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,36 @@
 typedef struct data
 {
 	struct timeval	global;
-	pthread_mutex_t	data_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	data_mutex;
 	long			expiration_time;
 	long			sleep_time;
 	long			eat_time;
 	int				min_eat;
 	int				philo_n;
-	int				flag_eat;
+	int				f_eat;
+	int				flag_dead;
 }t_data;
 
-typedef struct philobot
+typedef struct philobot	t_philobot;
+
+struct philobot
 {
 	struct timeval	last_meal;
-	pthread_mutex_t	philodatamutex;
+	pthread_mutex_t	pdata;
 	pthread_mutex_t	fork;
-	pthread_t		thread;
 	t_data			*data;
-	void			*next;
+	t_philobot		*next;
 	int				id;
+	int				fork_locked;
 	int				finished;
-}t_philobot;
+}t;
 
 //utils
-int		error_manager(int err_code, char *err_msg);
-void	atomic_print(t_data *data, char *txt, int id);
-long	whatttime(struct timeval global);
-void	atomic_actualise_time(t_philobot *philo);
+long	whatttime(pthread_mutex_t *mutex, struct timeval global);
+int		check_free_fork(t_philobot *philo);
+int		check_death(t_philobot *philo);
+int		is_finished(t_philobot *philobot);
 
 //minilib
 int		ft_atoi(const char *str);
@@ -57,6 +60,12 @@ int		ft_wdcount(char **str);
 
 //philoaction
 void	good_sleep(t_philobot *philo);
-void	eat(t_philobot *philo);
-int		is_finished(t_philobot *philobot);
+void	eat(t_philobot *philo, int *ate_n);
+
+//atomicfunc
+void	atomic_print(t_data *data, char *txt, int id);
+void	atomic_actualise_time(t_philobot *philo);
+void	atomic_set_data(pthread_mutex_t	*mutex, int *data, int val);
+int		atomic_fetch_data(pthread_mutex_t	*mutex, int *data);
+
 #endif /*!PHILO_H */

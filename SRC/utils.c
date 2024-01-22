@@ -12,34 +12,57 @@
 
 #include "../include/philo.h"
 
-int	error_manager(int err_code, char *err_msg)
-{
-	printf("%s\n", err_msg);
-	exit(err_code);
-}
-
-long	whatttime(struct timeval global)
+long	whatttime(pthread_mutex_t *mutex, struct timeval global)
 {
 	struct timeval	now;
+	int				val;	
 
+	pthread_mutex_lock(mutex);
 	gettimeofday(&now, NULL);
-	return ((now.tv_sec - global.tv_sec) * 1000
-		+ (now.tv_usec - global.tv_usec) / 1000);
+	val = ((now.tv_sec - global.tv_sec) * 1000
+			+ (now.tv_usec - global.tv_usec) / 1000);
+	pthread_mutex_unlock(mutex);
+	return (val);
 }
 
-void	atomic_print(t_data *data, char *txt, int id)
+int	check_free_fork(t_philobot *philo)
 {
-	pthread_mutex_lock(&data->print_mutex);
-	if (id < 0)
-		printf("%ldms %s\n", whatttime(data->global), txt);
-	else
-		printf("%ldms %d %s\n", whatttime(data->global), id, txt);
-	pthread_mutex_unlock(&data->print_mutex);
+	int	test;
+
+	test = 0;
+	pthread_mutex_lock(&philo->pdata);
+	test = philo->fork_locked;
+	pthread_mutex_unlock(&philo->pdata);
+	pthread_mutex_lock(&philo->next->pdata);
+	test |= philo->next->fork_locked;
+	pthread_mutex_unlock(&philo->next->pdata);
+	return (!test);
 }
 
-void	atomic_actualise_time(t_philobot *philo)
+int	check_death(t_philobot *philo)
 {
-	pthread_mutex_lock(&philo->philodatamutex);
-	gettimeofday(&philo->last_meal, NULL);
-	pthread_mutex_lock(&philo->philodatamutex);
+	int	test;
+
+	test = 0;
+	pthread_mutex_lock(&philo->data->data_mutex);
+	test = philo->data->flag_dead;
+	pthread_mutex_unlock(&philo->data->data_mutex);
+	return (test);
+}
+
+int	is_finished(t_philobot *philobot)
+{
+	int	i;
+	int	iteration;
+
+	iteration = philobot[0].data->philo_n;
+	i = 0;
+	while (i < iteration)
+	{
+		if (atomic_fetch_data(&philobot[i].pdata, &philobot[i].finished))
+			return (0);
+		i++;
+	}
+	atomic_print(philobot[0].data, "everyone ate, project finished", -1);
+	return (1);
 }
