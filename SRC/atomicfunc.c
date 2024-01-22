@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:20:01 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 13:50:51 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:18:33 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	atomic_set_data(pthread_mutex_t *mutex, int *data, int val)
 	pthread_mutex_unlock(mutex);
 }
 
-int	atomic_fetch_data(pthread_mutex_t *mutex, int *data)
+int	fetch_data(pthread_mutex_t *mutex, int *data)
 {
 	int	tmp;
 
@@ -45,4 +45,17 @@ int	atomic_fetch_data(pthread_mutex_t *mutex, int *data)
 	tmp = *data;
 	pthread_mutex_unlock(mutex);
 	return (tmp);
+}
+
+long	whatttime(pthread_mutex_t *mutex, struct timeval global)
+{
+	struct timeval	now;
+	int				val;	
+
+	pthread_mutex_lock(mutex);
+	gettimeofday(&now, NULL);
+	val = ((now.tv_sec - global.tv_sec) * 1000
+			+ (now.tv_usec - global.tv_usec) / 1000);
+	pthread_mutex_unlock(mutex);
+	return (val);
 }

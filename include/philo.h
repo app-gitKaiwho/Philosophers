@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 11:54:56 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 14:11:57 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:42:28 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef struct data
 	int				flag_dead;
 }t_data;
 
-typedef struct philobot	t_philobot;
+typedef struct s_philobot	t_philobot;
 
-struct philobot
+struct s_philobot
 {
 	struct timeval	last_meal;
 	pthread_mutex_t	pdata;
@@ -46,13 +46,19 @@ struct philobot
 	int				id;
 	int				fork_locked;
 	int				finished;
-}t;
+};
+
+//pthread
+void	*damocles(void *arg);
+void	*philobot(void *arg);
+void	process(pthread_t	*threads, t_philobot *philobots);
 
 //utils
-long	whatttime(pthread_mutex_t *mutex, struct timeval global);
-int		check_free_fork(t_philobot *philo);
 int		check_death(t_philobot *philo);
 int		is_finished(t_philobot *philobot);
+int		lock_mutex(t_philobot *philo);
+void	unlock_mutex(t_philobot *philo);
+void	free_all(t_philobot *philobot, pthread_t *threads);
 
 //minilib
 int		ft_atoi(const char *str);
@@ -60,12 +66,18 @@ int		ft_wdcount(char **str);
 
 //philoaction
 void	good_sleep(t_philobot *philo);
-void	eat(t_philobot *philo, int *ate_n);
+int		eat(t_philobot *philo, int *ate_n);
+int		eat_odd(t_philobot *philo, int *ate_n);
+
+//damoclesaction
+int		everyone_ate(t_philobot *philobots, t_data *data, int i);
+int		someone_died(t_philobot *philobots, t_data *data, int i);
 
 //atomicfunc
 void	atomic_print(t_data *data, char *txt, int id);
 void	atomic_actualise_time(t_philobot *philo);
 void	atomic_set_data(pthread_mutex_t	*mutex, int *data, int val);
-int		atomic_fetch_data(pthread_mutex_t	*mutex, int *data);
+int		fetch_data(pthread_mutex_t	*mutex, int *data);
+long	whatttime(pthread_mutex_t *mutex, struct timeval global);
 
 #endif /*!PHILO_H */

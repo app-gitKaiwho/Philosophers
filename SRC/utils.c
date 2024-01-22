@@ -12,33 +12,6 @@
 
 #include "../include/philo.h"
 
-long	whatttime(pthread_mutex_t *mutex, struct timeval global)
-{
-	struct timeval	now;
-	int				val;	
-
-	pthread_mutex_lock(mutex);
-	gettimeofday(&now, NULL);
-	val = ((now.tv_sec - global.tv_sec) * 1000
-			+ (now.tv_usec - global.tv_usec) / 1000);
-	pthread_mutex_unlock(mutex);
-	return (val);
-}
-
-int	check_free_fork(t_philobot *philo)
-{
-	int	test;
-
-	test = 0;
-	pthread_mutex_lock(&philo->pdata);
-	test = philo->fork_locked;
-	pthread_mutex_unlock(&philo->pdata);
-	pthread_mutex_lock(&philo->next->pdata);
-	test |= philo->next->fork_locked;
-	pthread_mutex_unlock(&philo->next->pdata);
-	return (!test);
-}
-
 int	check_death(t_philobot *philo)
 {
 	int	test;
@@ -59,10 +32,47 @@ int	is_finished(t_philobot *philobot)
 	i = 0;
 	while (i < iteration)
 	{
-		if (atomic_fetch_data(&philobot[i].pdata, &philobot[i].finished))
+		if (fetch_data(&philobot[i].pdata, &philobot[i].finished))
 			return (0);
 		i++;
 	}
 	atomic_print(philobot[0].data, "everyone ate, project finished", -1);
 	return (1);
+}
+
+int	lock_mutex(t_philobot *philo)
+{
+	if (fetch_data(&philo->pdata, &philo->fork_locked))
+		return (0);
+	atomic_set_data(&philo->pdata, &philo->fork_locked, 1);
+	pthread_mutex_lock(&philo->fork);
+	return (1);
+}
+
+void	unlock_mutex(t_philobot *philo)
+{
+	atomic_set_data(&philo->pdata, &philo->fork_locked, 0);
+	pthread_mutex_unlock(&philo->fork);
+}
+
+void	free_all(t_philobot *philobot, pthread_t *threads)
+{
+	int	i;
+	int	iteration;
+
+	iteration = philobot[0].data->philo_n;
+	i = 0;
+	while (philobot && i < iteration)
+	{
+		pthread_mutex_destroy(&philobot[i].pdata);
+		pthread_mutex_destroy(&philobot[i].fork);
+		i++;
+	}
+	i = -1;
+	while (threads && ++i < philobot[0].data->philo_n + 1)
+		free(threads);
+	pthread_mutex_destroy(&philobot[0].data->print_mutex);
+	pthread_mutex_destroy(&philobot[0].data->data_mutex);
+	free(philobot[0].data);
+	free(philobot);
 }
