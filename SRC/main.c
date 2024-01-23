@@ -77,7 +77,7 @@ int	main(int ac, char **av)
 		philobots = data_init(av);
 		if (!philobots)
 			return (printf("Malloc error\n"));
-		threads = malloc(sizeof(pthread_t) * philobots[0].data->philo_n + 1);
+		threads = malloc(sizeof(pthread_t) * (philobots[0].data->philo_n + 1));
 		if (!threads)
 			return (printf("Malloc error\n"));
 		gettimeofday(&philobots[0].data->global, NULL);

@@ -6,14 +6,14 @@
 #    By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:52:50 by lvon-war          #+#    #+#              #
-#    Updated: 2024/01/23 16:23:04 by lvon-war         ###   ########.fr        #
+#    Updated: 2024/01/23 17:18:28 by lvon-war         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Executable Name
 ENAME	=	philo
 NAME	=	philo.a
-CFLAGS	=	-Wall -Werror -Wextra -fsanitize=thread
+CFLAGS	=	-Wall -Werror -Wextra -g3 -fsanitize=address
 AR		=	ar -rsc
 FILES	=	main.c pthread.c philoaction.c damoclesaction.c utils.c minilib.c atomicfunc.c
 

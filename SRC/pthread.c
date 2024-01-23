@@ -6,7 +6,7 @@
 /*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:27:30 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/23 16:58:05 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/23 17:07:58 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	process(pthread_t	*threads, t_philobot *philobots)
 		usleep(100);
 	}
 	pthread_create(&threads[i], NULL, damocles, philobots);
-	i = 0;
-	while (i < philobots[0].data->philo_n + 1)
-		pthread_join(threads[i++], NULL);
+	i = -1;
+	while (++i < philobots[0].data->philo_n + 1)
+		pthread_join(threads[i], NULL);
 }
