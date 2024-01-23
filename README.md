@@ -16,4 +16,4 @@ test.sh				: run a batch of test. Result are printed in console, detail in resul
 [IMPROVEMENT]
 
 If I had to do this again, I would name my variable explisitly to know if they need mutex or not for exmple :
-min_eat is not critical so I would call it smth OK_min_eat, and f_eat would be private_f_eat idk
+min_eat is not critical so I would call it smth OK_min_eat, and f_eat would be private_f_eat idk.
