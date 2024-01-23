@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atomicfunc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+        */
+/*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 11:20:01 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 23:31:44 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:55:39 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	atomic_print(t_data *data, char *txt, int id)
 {
-	if (data->flag_dead)
+	if (fetch_data(&data->data_mutex, &data->flag_dead))
 		return ;
 	pthread_mutex_lock(&data->print_mutex);
-	if (data->flag_dead)
+	if (fetch_data(&data->data_mutex, &data->flag_dead))
 	{
 		pthread_mutex_unlock(&data->print_mutex);
 		return ;

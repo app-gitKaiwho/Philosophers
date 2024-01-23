@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pthread.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvon-war <lvonwar42@gmail.com>             +#+  +:+       +#+        */
+/*   By: lvon-war <lvon-war@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:27:30 by lvon-war          #+#    #+#             */
-/*   Updated: 2024/01/22 23:31:59 by lvon-war         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:58:05 by lvon-war         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@ void	*damocles(void *arg)
 {
 	t_philobot		*philobots;
 	t_data			*data;
+	int				n_philo;
 	int				i;
 
 	philobots = (t_philobot *)arg;
 	data = philobots[0].data;
-	atomic_print(data, "Death is watching", -1);
+	n_philo = data->philo_n;
 	while (1)
 	{
 		i = 0;
-		while (i < data->philo_n)
+		while (i < n_philo)
 		{
 			if (everyone_ate(philobots, data, i))
 				return (NULL);
@@ -44,8 +45,7 @@ void	*philobot(void *arg)
 	int			ate;
 
 	philo = (t_philobot *)arg;
-	ate_n = fetch_data(&philo->data->data_mutex, &philo->data->min_eat);
-	atomic_print(philo->data, "Woke up", philo->id);
+	ate_n = philo->data->min_eat;
 	atomic_actualise_time(philo);
 	if (!philo->id % 2)
 		usleep(philo->data->eat_time / 2);
