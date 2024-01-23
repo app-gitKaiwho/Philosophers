@@ -10,6 +10,9 @@ git.sh				: add, commit and push to both git repo, my own and the school's
 setupremote.sh is	: only used to link my github the internal intranet
 test.sh				: run a batch of test. Result are printed in console, detail in result
 
+[SCORE]
+100/100
+
 [IMPROVEMENT]
 
 If I had to do this again, I would name my variable explisitly to know if they need mutex or not for exmple :
